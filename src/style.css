@@ -46,13 +46,14 @@ li::first-letter {
 .current-weather {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .current-weather img {
   margin-right: 5px;
   height: 64px;
   width: 64px;
+  vertical-align: top;
 }
 
 .current-weather strong {
@@ -88,6 +89,7 @@ a:link {
   justify-content: space-evenly;
   flex-direction: row;
   padding-top: 40px;
+  color: rgb(135, 135, 135);
 }
 
 .weather-forecast-day {
