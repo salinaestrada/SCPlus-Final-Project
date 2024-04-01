@@ -39,12 +39,13 @@ function displayTemperature(response) {
     `http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${response.data.condition.icon}.png`
   );
   iconElement.setAttribute("alt", `${response.data.condition.description}`);
+  getForecast(response.data.coordinates);
 }
 
 // Functions as search engine
 function search(city) {
   let apiKey = "be8of109b6t500324a628a4f8a83394b";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=be8of109b6t500324a628a4f8a83394b&units=imperial`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=imperial`;
   axios.get(apiUrl).then(displayTemperature);
 }
 
@@ -93,7 +94,21 @@ farenheitLink.addEventListener("click", showFarenheitTemperature);
 
 // Default page load city
 search("Austin");
-displayForecast();
+
+// Function to get forecast
+function getForecast(coordinates) {
+  let apiKey = "be8of109b6t500324a628a4f8a83394b";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${coordinates.latitude}&lon=${coordinates.longitude}&key=${apiKey}&units=imperial`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+// Function to format day
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  let day = days[date.getDay()];
+  return day;
+}
 
 // Function to display forecast
 function displayForecast(response) {
@@ -122,6 +137,6 @@ function displayForecast(response) {
     }
   });
 
-  let forecastElement = document.querySelector("#forecast");
+  let forecastElement = document.querySelector(".weather-forecast");
   forecastElement.innerHTML = forecastHtml;
 }
